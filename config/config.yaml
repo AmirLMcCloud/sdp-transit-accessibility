@@ -1,0 +1,88 @@
+# All analysis parameters live here. Paths are relative to the repo root.
+paths:
+  data_dir: data/inputs        # small/scenario layers (shapefiles you supply)
+  raw_dir: data/raw            # downloaded: PBF, GTFS, ACS cache
+  output_dir: outputs
+  figure_dir: docs/figures
+
+acs:
+  year: 2022                   # 5-yr ACS vintage; keep in sync with the paper
+  state: "42"
+  county: "101"                # Philadelphia
+
+gtfs:
+  zip: data/raw/septa_gtfs.zip       # flat GTFS zip, or a zip of zips (e.g. google_bus.zip + google_rail.zip)
+  # "auto" = the weekday-Tuesday nearest the middle of the feed's service range, at departure_time.
+  # Or set an explicit ISO datetime (must fall inside the feed; checked at run time).
+  departure: auto
+  departure_time: "08:00"
+  # "auto" skips these recurring MM-DD/MM-DD ranges (winter break, Thanksgiving week, summer)
+  # and any day with calendar exceptions, so the date is a typical school-year Tuesday.
+  avoid_ranges: ["12-20/01-05", "11-22/11-30", "06-15/08-31"]
+  departure_window_min: 60
+  # The chosen date and feed range are written to outputs/run_metadata.json. State the
+  # feed's season in the write-up (school-year vs summer service changes frequencies).
+
+osm:
+  pbf_url: https://download.geofabrik.de/north-america/us/pennsylvania-latest.osm.pbf
+  pbf_path: data/raw/pennsylvania.osm.pbf
+  walk_graph: data/raw/philly_walk_network.graphml
+
+analysis:
+  walk_speed_ms: 1.4
+  iso_minutes: [5, 10, 15]
+  edge_buffer_m: 25
+  max_travel_min: 90           # r5py cutoff; must be >= max(access_thresholds_min). Unreachable pairs are flagged, not silently filled.
+  access_thresholds_min: [10, 30, 50, 70]
+  primary_threshold_min: 30    # drives the primary DV delta_access_30
+  min_pop: 100
+  # Treatment-dilution control: only block groups within this many metres
+  # of a closing school's original catchment form the "study area" robustness model.
+  study_area_buffer_m: 3000
+  projected_crs: "EPSG:32618"   # UTM 18N, metres
+
+levels:
+  active: [high]
+  high:
+    original:
+      schools: Original_school.shp
+      catchments: SchoolDist_Catchments_HS_Original.shp
+    fmp:
+      schools: School.shp
+      catchments: SchoolDist_Catchments_HS_Change.shp
+    # Public ArcGIS Online hosted layers (gisanddata org). `sdp-access fetch` downloads them
+    # into data/inputs/high/ under the filenames above.
+    agol:
+      original:
+        schools: fdb4fd798d544b83a7aadf6b2e51770f      # Original_School_HS
+        catchments: 41d0530e6c4c414c9321aa8dfe218802   # SchoolDist_Catchments_HS_Original
+      fmp:
+        schools: dff6857289f3472eafec069e704556d4      # School_HS
+        catchments: 9f19e06a0dbc422fb0281bde1e96f8c0   # Catchments_HS_2024
+    id_field: location_i            # school point key (shapefile-truncated "location_id")
+    id_name_field: school_n_1       # used to apply id_overrides
+    # Penn Treaty has placeholder location_i = 0 in the SDP layer; its catchment key is 5160.
+    id_overrides:
+      "PENN TREATY HIGH SCHOOL": "5160"
+    catchment_id_field: hs_id       # matched case-insensitively (original: hs_id, FMP: HS_ID)
+
+acs_vars:
+  B03002_001E: total_pop
+  B03002_003E: white_alone_nonhisp
+  B03002_004E: black_alone_nonhisp
+  B03002_006E: asian_alone_nonhisp
+  B03002_012E: hispanic_latino
+  B19058_001E: snap_universe
+  B19058_002E: snap_recipients
+  B25044_001E: tenure_universe
+  B25044_003E: owner_no_vehicle
+  B25044_010E: renter_no_vehicle
+  B01001_001E: age_universe
+  B01001_004E: male_5_9
+  B01001_005E: male_10_14
+  B01001_006E: male_15_17
+  B01001_028E: female_5_9
+  B01001_029E: female_10_14
+  B01001_030E: female_15_17
+  B08301_001E: commute_universe
+  B08301_010E: commute_transit

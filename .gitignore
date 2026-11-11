@@ -1,0 +1,23 @@
+# Large / licensed inputs — fetched by scripts/download_data.py
+data/raw/*
+data/inputs/**/*.shp
+data/inputs/**/*.dbf
+data/inputs/**/*.shx
+data/inputs/**/*.prj
+data/inputs/**/*.cpg
+*.osm.pbf
+*.graphml
+*.zip
+!data/raw/.gitkeep
+!data/inputs/high/.gitkeep
+# Secrets
+.env
+# Python
+__pycache__/
+*.egg-info/
+.venv/
+.pytest_cache/
+.ipynb_checkpoints/
+# r5py / OS
+*.dat
+.DS_Store

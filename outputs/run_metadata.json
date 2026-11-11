@@ -1,0 +1,10 @@
+{
+  "departure": "2026-12-15T08:00:00",
+  "gtfs_service_start": "2026-11-01",
+  "gtfs_service_end": "2027-02-20",
+  "gtfs_files": [
+    "google_bus.zip",
+    "google_rail.zip"
+  ],
+  "departure_window_min": 60
+}

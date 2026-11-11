@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sdp-access"
+version = "0.1.0"
+description = "Transit + walk accessibility and equity analysis of the School District of Philadelphia Facilities Master Plan"
+requires-python = ">=3.10"
+dependencies = ["geopandas>=1.0", "pandas", "numpy", "statsmodels", "scipy", "matplotlib",
+                "openpyxl", "pyyaml", "requests", "osmnx>=2.0", "networkx", "folium", "python-dotenv"]
+
+[project.optional-dependencies]
+routing = ["r5py>=1.0"]
+arcgis = ["arcgis"]
+dev = ["pytest"]
+
+[project.scripts]
+sdp-access = "sdp_access.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

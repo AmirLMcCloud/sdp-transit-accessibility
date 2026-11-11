@@ -1,0 +1,25 @@
+name: sdp-access
+channels: [conda-forge]
+dependencies:
+  - python=3.12
+  - openjdk=21
+  - geopandas>=1.0
+  - osmnx>=2.0
+  - networkx
+  - pandas
+  - numpy
+  - statsmodels
+  - scipy
+  - matplotlib
+  - openpyxl
+  - pyarrow
+  - pyyaml
+  - requests
+  - folium
+  - pytest
+  - jupyter
+  - pip
+  - pip:
+      - r5py>=1.0
+      - python-dotenv
+      - -e .

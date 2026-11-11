@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this project, please cite it as follows."
+title: "Philadelphia School District Transit Accessibility Analysis"
+authors:
+  - family-names: "McCloud"
+    given-names: "Amir"
+version: 1.0.0
+date-released: 2026-11-11
+type: software
+abstract: >
+  A geospatial data analytics project examining changes in
+  public school accessibility under the Philadelphia School
+  District Facilities Master Plan. The project uses Census
+  American Community Survey data, GTFS transit data,
+  OpenStreetMap, network analysis, and statistical modeling
+  to evaluate geographic equity in school accessibility.
+license: MIT
+repository-code: "https://github.com/AmirLMcCloud/sdp-transit-accessibility"
+keywords:
+  - Philadelphia
+  - Education Policy
+  - Transit Accessibility
+  - Geographic Information Systems
+  - Spatial Analysis
+  - Equity Analysis
+  - Python
+  - Public Policy
